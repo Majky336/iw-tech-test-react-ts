@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { EstablishmentsTable } from "./EstablishmentsTable";
 import { EstablishmentsTableNavigation } from "./EstablishmentsTableNavigation";
-import { getEstablishmentRatings } from "../api/ratingsAPI";
+import {Establishment, getEstablishmentRatings} from "../api/ratingsAPI";
 
 const tableStyle: React.CSSProperties = {
   background: "rgba(51, 51, 51, 0.9)",
@@ -15,7 +15,7 @@ export const PaginatedEstablishmentsTable = () => {
   const [error, setError] =
     useState<{ message: string; [key: string]: string }>();
   const [establishments, setEstablishments] = useState<
-    { [key: string]: string }[]
+    Establishment[]
   >([]);
   const [pageNum, setPageNum] = useState(1);
   const [pageCount] = useState(100);

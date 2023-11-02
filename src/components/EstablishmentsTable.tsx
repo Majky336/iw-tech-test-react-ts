@@ -1,6 +1,7 @@
 import React from "react";
 import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
+import { Establishment } from "../api/ratingsAPI";
 
 const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",
@@ -9,7 +10,7 @@ const headerStyle: React.CSSProperties = {
 };
 
 export const EstablishmentsTable: React.FC<{
-  establishments: { [key: string]: string }[] | null | undefined;
+  establishments: Establishment[];
 }> = ({ establishments }) => {
   return (
     <table>
@@ -18,23 +19,18 @@ export const EstablishmentsTable: React.FC<{
           <th style={headerStyle}>Business Name</th>
           <th style={headerStyle}>Rating Value</th>
         </tr>
-        {establishments &&
-          establishments?.map(
-            (
-              establishment: { [key: string]: string } | null | undefined,
-              index: React.Key | null | undefined
-            ) => (
+        {establishments?.map((establishment: Establishment, index: React.Key | null | undefined) => (
               <EstablishmentsTableRow
                 key={index}
                 establishment={establishment}
               />
             )
-          )}
+        )}
       </tbody>
     </table>
   );
 };
 
 EstablishmentsTable.propTypes = {
-  establishments: PropTypes.array,
+  establishments: PropTypes.array.isRequired,
 };

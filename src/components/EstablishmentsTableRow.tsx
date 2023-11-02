@@ -1,5 +1,8 @@
+import React from 'react';
+import { Establishment } from "../api/ratingsAPI";
+
 export const EstablishmentsTableRow: React.FC<{
-  establishment: { [key: string]: string } | null | undefined;
+  establishment: Establishment;
 }> = ({ establishment }) => {
   return (
     <tr>

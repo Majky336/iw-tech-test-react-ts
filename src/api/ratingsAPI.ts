@@ -1,21 +1,33 @@
+export type Establishment = {
+  BusinessName: string;
+  BusinessType: string;
+  FHRSID: number;
+  LocalAuthorityBusinessID: string;
+  RatingDate: string;
+  RatingValue: string;
+  links: EstablishmentLink[];
+}
+
+export type EstablishmentMetadata = {
+  dataSource: string;
+  extractDate: string;
+  itemCount: number;
+  returncode: string;
+  totalCount: number;
+  totalPages: number;
+  pageSize: number;
+  pageNumber: number;
+}
+
+export type EstablishmentLink = {
+  rel: string;
+  href: string;
+}
+
 export type EstablishmentsType = {
-  establishments: {}[];
-  meta: {
-    dataSource: string;
-    extractDate: string;
-    itemCount: number;
-    returncode: string;
-    totalCount: number;
-    totalPages: number;
-    pageSize: number;
-    pageNumber: number;
-  };
-  links: [
-    {
-      rel: string;
-      href: string;
-    }
-  ];
+  establishments: Establishment[];
+  meta: EstablishmentMetadata;
+  links: EstablishmentLink[];
 };
 
 export function getEstablishmentRatings(
