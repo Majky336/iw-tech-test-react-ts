@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import HomePage from "./components/HomePage";
 
-class App extends Component {
-  render() {
+const App: React.FC = () => {
     return <HomePage />;
-  }
 }
 
 export default App;
