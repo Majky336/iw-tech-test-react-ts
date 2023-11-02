@@ -2,6 +2,7 @@ import React from "react";
 import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
 import { Establishment } from "../api/ratingsAPI";
+import Loader from "./Loader";
 
 const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",
@@ -10,8 +11,22 @@ const headerStyle: React.CSSProperties = {
 };
 
 export const EstablishmentsTable: React.FC<{
-  establishments: Establishment[];
-}> = ({ establishments }) => {
+  establishments: Establishment[] | null;
+  isLoading: boolean;
+}> = ({ establishments, isLoading }) => {
+  const renderLoader = () => (
+    <tr>
+      <td>
+        <Loader />
+      </td>
+    </tr>
+  );
+
+  const renderRows = (establishments: Establishment[] | null) =>
+    establishments?.map((establishment, index) => (
+      <EstablishmentsTableRow key={index} establishment={establishment} />
+    ));
+
   return (
     <table>
       <tbody>
@@ -19,19 +34,13 @@ export const EstablishmentsTable: React.FC<{
           <th style={headerStyle}>Business Name</th>
           <th style={headerStyle}>Rating Value</th>
         </tr>
-        {establishments?.map(
-          (
-            establishment: Establishment,
-            index: React.Key | null | undefined
-          ) => (
-            <EstablishmentsTableRow key={index} establishment={establishment} />
-          )
-        )}
+        {isLoading ? renderLoader() : renderRows(establishments)}
       </tbody>
     </table>
   );
 };
 
 EstablishmentsTable.propTypes = {
-  establishments: PropTypes.array.isRequired,
+  establishments: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
 };

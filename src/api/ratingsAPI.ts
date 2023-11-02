@@ -6,7 +6,7 @@ export type Establishment = {
   RatingDate: string;
   RatingValue: string;
   links: EstablishmentLink[];
-}
+};
 
 export type EstablishmentMetadata = {
   dataSource: string;
@@ -17,17 +17,28 @@ export type EstablishmentMetadata = {
   totalPages: number;
   pageSize: number;
   pageNumber: number;
-}
+};
 
 export type EstablishmentLink = {
   rel: string;
   href: string;
-}
+};
 
 export type EstablishmentsType = {
   establishments: Establishment[];
   meta: EstablishmentMetadata;
   links: EstablishmentLink[];
+};
+
+export type FetchError = {
+  message: string;
+  [key: string]: string;
+};
+
+export type FetchResult<T> = {
+  data: T | null;
+  error: FetchError | null;
+  isFetching: boolean;
 };
 
 export function getEstablishmentRatings(
