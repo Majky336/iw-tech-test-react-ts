@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Establishment } from "../api/ratingsAPI";
 
 export const EstablishmentsTableRow: React.FC<{

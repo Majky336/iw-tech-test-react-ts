@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const buttonStyle: React.CSSProperties = {
   margin: "0 5px",

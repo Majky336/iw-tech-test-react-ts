@@ -19,12 +19,13 @@ export const EstablishmentsTable: React.FC<{
           <th style={headerStyle}>Business Name</th>
           <th style={headerStyle}>Rating Value</th>
         </tr>
-        {establishments?.map((establishment: Establishment, index: React.Key | null | undefined) => (
-              <EstablishmentsTableRow
-                key={index}
-                establishment={establishment}
-              />
-            )
+        {establishments?.map(
+          (
+            establishment: Establishment,
+            index: React.Key | null | undefined
+          ) => (
+            <EstablishmentsTableRow key={index} establishment={establishment} />
+          )
         )}
       </tbody>
     </table>
