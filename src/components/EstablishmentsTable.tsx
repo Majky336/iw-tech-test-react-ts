@@ -2,7 +2,7 @@ import React from "react";
 import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
 
-const headerStyle: { [key: string]: string | number } = {
+const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",
   textAlign: "left",
   fontSize: "20px",

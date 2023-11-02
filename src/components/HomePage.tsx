@@ -1,7 +1,9 @@
+import React from "react";
 import { PaginatedEstablishmentsTable } from "./PaginatedEstablishmentsTable";
 import Background from "../static/logo.svg";
 
-const logoStyle: { [key: string]: string | number } = {
+
+const logoStyle: React.CSSProperties = {
   width: "640px",
   height: "25px",
   background: `transparent url(${Background}) no-repeat center`,
