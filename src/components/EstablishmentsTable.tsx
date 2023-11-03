@@ -1,7 +1,7 @@
 import React from "react";
 import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
-import { Establishment } from "../api/ratingsAPI";
+import { Establishment, EstablishmentSearchResult } from "../api/ratingsAPI";
 import Loader from "./Loader";
 
 const headerStyle: React.CSSProperties = {
@@ -11,7 +11,7 @@ const headerStyle: React.CSSProperties = {
 };
 
 export const EstablishmentsTable: React.FC<{
-  establishments: Establishment[] | null;
+  establishments: Establishment[] | EstablishmentSearchResult[] | null;
   isLoading: boolean;
 }> = ({ establishments, isLoading }) => {
   const renderLoader = () => (
@@ -22,7 +22,9 @@ export const EstablishmentsTable: React.FC<{
     </tr>
   );
 
-  const renderRows = (establishments: Establishment[] | null) =>
+  const renderRows = (
+    establishments: Establishment[] | EstablishmentSearchResult[] | null
+  ) =>
     establishments?.map((establishment, index) => (
       <EstablishmentsTableRow key={index} establishment={establishment} />
     ));

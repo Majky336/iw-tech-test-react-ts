@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PaginatedEstablishmentsTable } from "./PaginatedEstablishmentsTable";
 import Background from "../static/logo.svg";
-
+import AuthoritiesFilter, { AuthorityOption } from "./AuthoritiesFilter";
+import { FetchResult, Authority, getAuthorities } from "../api/ratingsAPI";
 
 const logoStyle: React.CSSProperties = {
   width: "640px",
@@ -11,10 +12,55 @@ const logoStyle: React.CSSProperties = {
 };
 
 const HomePage = () => {
+  const [selectedAuthorityCode, setSelectedAuthorityCode] = useState<
+    string | undefined
+  >(undefined);
+  const [fetchResult, setFetchResult] = useState<FetchResult<Authority[]>>({
+    error: null,
+    data: null,
+    isFetching: true,
+  });
+  const cachedAuthoritiesOptions = useMemo<AuthorityOption<string>[]>(() => {
+    if (!fetchResult.data) {
+      return [];
+    }
+
+    return fetchResult.data.map((authority) => ({
+      label: authority.Name,
+      value: authority.LocalAuthorityIdCode,
+    }));
+  }, [fetchResult.data]);
+
+  useEffect(() => {
+    getAuthorities().then(
+      (result) => {
+        setFetchResult({
+          error: null,
+          data: result.authorities,
+          isFetching: false,
+        });
+      },
+      (error) => {
+        setFetchResult({ error, data: null, isFetching: false });
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSelectAuthorityCode = (authorityCode: string) => {
+    setSelectedAuthorityCode(authorityCode);
+  };
+
   return (
     <div>
       <header style={logoStyle} />
-      <PaginatedEstablishmentsTable />
+      <AuthoritiesFilter
+        authoritiesOptions={cachedAuthoritiesOptions}
+        onSelect={handleSelectAuthorityCode}
+      />
+      <PaginatedEstablishmentsTable
+        selectedAuthorityCode={selectedAuthorityCode}
+      />
     </div>
   );
 };

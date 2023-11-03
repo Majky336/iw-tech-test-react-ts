@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { EstablishmentsTable } from "./EstablishmentsTable";
 import { EstablishmentsTableNavigation } from "./EstablishmentsTableNavigation";
 import {
   Establishment,
+  EstablishmentSearchResult,
   FetchResult,
-  getEstablishmentRatings,
+  getEstablishments,
 } from "../api/ratingsAPI";
 
 const tableStyle: React.CSSProperties = {
@@ -15,17 +17,31 @@ const tableStyle: React.CSSProperties = {
   color: "white",
 };
 
-export const PaginatedEstablishmentsTable = () => {
-  const [fetchResult, setFetchResult] = useState<FetchResult<Establishment[]>>({
+const PAGE_COUNT = 100;
+
+export const PaginatedEstablishmentsTable: React.FC<{
+  selectedAuthorityCode?: string;
+}> = ({ selectedAuthorityCode }) => {
+  const [fetchResult, setFetchResult] = useState<
+    FetchResult<Establishment[] | EstablishmentSearchResult[]>
+  >({
     error: null,
     data: null,
     isFetching: true,
   });
   const [pageNum, setPageNum] = useState(1);
-  const [pageCount] = useState(100);
 
   useEffect(() => {
-    getEstablishmentRatings(pageNum).then(
+    setFetchResult({
+      error: null,
+      data: null,
+      isFetching: true,
+    });
+
+    getEstablishments(
+      pageNum,
+      getLocalAuthorityIdSearchParams(selectedAuthorityCode)
+    ).then(
       (result) => {
         setFetchResult({
           error: null,
@@ -42,60 +58,27 @@ export const PaginatedEstablishmentsTable = () => {
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedAuthorityCode, pageNum]);
+
+  useEffect(() => {
+    pageNum !== 1 && setPageNum(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAuthorityCode]);
 
   async function handlePreviousPage() {
     pageNum > 1 && setPageNum(pageNum - 1);
-
-    setFetchResult({
-      error: null,
-      data: null,
-      isFetching: true,
-    });
-
-    getEstablishmentRatings(pageNum).then(
-      (result) => {
-        setFetchResult({
-          error: null,
-          data: result.establishments,
-          isFetching: false,
-        });
-      },
-      (error) => {
-        setFetchResult({
-          error,
-          data: null,
-          isFetching: false,
-        });
-      }
-    );
   }
 
   async function handleNextPage() {
-    pageNum < pageCount && setPageNum(pageNum + 1);
+    pageNum < PAGE_COUNT && setPageNum(pageNum + 1);
+  }
 
-    setFetchResult({
-      error: null,
-      data: null,
-      isFetching: true,
-    });
+  function getLocalAuthorityIdSearchParams(localAuthorityId?: string) {
+    if (!localAuthorityId) {
+      return undefined;
+    }
 
-    getEstablishmentRatings(pageNum).then(
-      (result) => {
-        setFetchResult({
-          error: null,
-          data: result.establishments,
-          isFetching: false,
-        });
-      },
-      (error) => {
-        setFetchResult({
-          error,
-          data: null,
-          isFetching: false,
-        });
-      }
-    );
+    return { localAuthorityId };
   }
 
   if (fetchResult.error) {
@@ -111,10 +94,14 @@ export const PaginatedEstablishmentsTable = () => {
       />
       <EstablishmentsTableNavigation
         pageNum={pageNum}
-        pageCount={pageCount}
+        pageCount={PAGE_COUNT}
         onPreviousPage={handlePreviousPage}
         onNextPage={handleNextPage}
       />
     </div>
   );
+};
+
+PaginatedEstablishmentsTable.propTypes = {
+  selectedAuthorityCode: PropTypes.string,
 };

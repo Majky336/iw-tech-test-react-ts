@@ -1,12 +1,12 @@
 import React from "react";
-import { Establishment } from "../api/ratingsAPI";
+import { Establishment, EstablishmentSearchResult } from "../api/ratingsAPI";
 
 const rowStyle: React.CSSProperties = {
-    fontSize: "20px"
-}
+  fontSize: "20px",
+};
 
 export const EstablishmentsTableRow: React.FC<{
-  establishment: Establishment;
+  establishment: Establishment | EstablishmentSearchResult;
 }> = ({ establishment }) => {
   return (
     <tr>

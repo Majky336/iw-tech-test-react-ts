@@ -1,5 +1,5 @@
 import { enableFetchMocks } from "jest-fetch-mock";
-import { getEstablishmentRatings } from "./ratingsAPI";
+import { getEstablishmentRatingsByPageNumber } from "./ratingsAPI";
 import fetch from "jest-fetch-mock";
 
 enableFetchMocks();
@@ -15,7 +15,7 @@ describe("Ratings API", () => {
     let expected = { testing: "test" };
     fetch.mockResponseOnce(JSON.stringify(expected));
     // When
-    let actual = await getEstablishmentRatings(pageNum);
+    let actual = await getEstablishmentRatingsByPageNumber(pageNum);
 
     // Then
     expect(actual).toEqual(expected);
