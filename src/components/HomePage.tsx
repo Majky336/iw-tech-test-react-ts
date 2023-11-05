@@ -11,6 +11,12 @@ const logoStyle: React.CSSProperties = {
   margin: "20px auto",
 };
 
+const mainStyle: React.CSSProperties = {
+  maxWidth: "160ch",
+  margin: "auto",
+  padding: "50px",
+};
+
 const HomePage = () => {
   const [selectedAuthorityCode, setSelectedAuthorityCode] = useState<
     string | undefined
@@ -52,16 +58,20 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <>
       <header style={logoStyle} />
-      <AuthoritiesFilter
-        authoritiesOptions={cachedAuthoritiesOptions}
-        onSelect={handleSelectAuthorityCode}
-      />
-      <PaginatedEstablishmentsTable
-        selectedAuthorityCode={selectedAuthorityCode}
-      />
-    </div>
+      <main style={mainStyle}>
+        <AuthoritiesFilter
+          authoritiesOptions={cachedAuthoritiesOptions}
+          id="authorities-filter"
+          onSelect={handleSelectAuthorityCode}
+          label="Select from list of Authorities:"
+        />
+        <PaginatedEstablishmentsTable
+          selectedAuthorityCode={selectedAuthorityCode}
+        />
+      </main>
+    </>
   );
 };
 

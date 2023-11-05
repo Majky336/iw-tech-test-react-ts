@@ -11,10 +11,11 @@ import {
 
 const tableStyle: React.CSSProperties = {
   background: "rgba(51, 51, 51, 0.9)",
-  padding: "10px",
-  width: "max-content",
-  marginLeft: "50px",
+  padding: "20px",
   color: "white",
+  display: "flex",
+  flexDirection: "column",
+  boxSizing: "border-box",
 };
 
 const PAGE_COUNT = 100;
