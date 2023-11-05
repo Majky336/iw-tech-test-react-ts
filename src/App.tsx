@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import HomePage from "./pages/HomePage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import EstablishmentDetailPage from "./pages/EstablishmentDetailPage";
 import Layout from "./layouts/Layout";
 import NotFoundPage from "./pages/NotFoundPage";
+import {
+  FavouriteEstablishmentsContext,
+  addFavouriteEstablishment,
+  removeFavouriteEstablishment,
+} from "./context/FavouriteEstablishments";
+import { Establishment } from "./api/ratingsAPI";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +38,22 @@ const router = createBrowserRouter([
 ]);
 
 const App: React.FC = () => {
-  return <RouterProvider router={router} />;
+  const [favouriteEstablishments, setFavouriteEstablishments] = useState<
+    Establishment[]
+  >([]);
+
+  return (
+    <FavouriteEstablishmentsContext.Provider
+      value={{
+        favouriteEstablishments,
+        setFavouriteEstablishments,
+        addFavouriteEstablishment,
+        removeFavouriteEstablishment,
+      }}
+    >
+      <RouterProvider router={router} />
+    </FavouriteEstablishmentsContext.Provider>
+  );
 };
 
 export default App;

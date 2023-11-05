@@ -3,6 +3,7 @@ import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
 import { Establishment, EstablishmentSearchResult } from "../api/ratingsAPI";
 import Loader from "./Loader";
+import NoDataTableRow from "./NoDataTableRow";
 
 const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",
@@ -25,6 +26,10 @@ export const EstablishmentsTable: React.FC<{
   const renderRows = (
     establishments: Establishment[] | EstablishmentSearchResult[] | null
   ) => {
+    if (!establishments || !establishments.length) {
+      return <NoDataTableRow />;
+    }
+
     return establishments?.map((establishment, index) => (
       <EstablishmentsTableRow key={index} establishment={establishment} />
     ));
@@ -36,6 +41,7 @@ export const EstablishmentsTable: React.FC<{
         <tr>
           <th style={headerStyle}>Business Name</th>
           <th style={headerStyle}>Rating Value</th>
+          <th style={headerStyle}>Favourite?</th>
         </tr>
         {isLoading ? renderLoader() : renderRows(establishments)}
       </tbody>

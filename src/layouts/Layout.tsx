@@ -1,6 +1,7 @@
 import React from "react";
 import Background from "../static/logo.svg";
 import { Outlet } from "react-router-dom";
+import FavouriteEstablishmentsTable from "../components/FavouriteEstablishmentsTable";
 
 const logoStyle: React.CSSProperties = {
   width: "640px",
@@ -21,6 +22,8 @@ const Layout: React.FC = () => {
       <header style={logoStyle} />
       <main style={mainStyle}>
         <Outlet />
+
+        <FavouriteEstablishmentsTable />
       </main>
     </>
   );
