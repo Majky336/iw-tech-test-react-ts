@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Establishment } from "../api/ratingsAPI";
+import { Establishment } from "../api/establishments";
 
 export type FavouriteEstablishments = {
   favouriteEstablishments: Establishment[];

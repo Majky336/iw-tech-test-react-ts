@@ -1,9 +1,12 @@
 import React from "react";
 import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
-import { Establishment, EstablishmentSearchResult } from "../api/ratingsAPI";
 import Loader from "./Loader";
 import NoDataTableRow from "./NoDataTableRow";
+import {
+  Establishment,
+  EstablishmentSearchResult,
+} from "../api/establishments";
 
 const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",

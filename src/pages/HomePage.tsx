@@ -3,42 +3,27 @@ import { PaginatedEstablishmentsTable } from "../components/PaginatedEstablishme
 import AuthoritiesFilter, {
   AuthorityOption,
 } from "../components/AuthoritiesFilter";
-import { FetchResult, Authority, getAuthorities } from "../api/ratingsAPI";
+import { getAuthorities } from "../api/authorities";
+import useFetch from "../hooks/useFetch";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const [selectedAuthorityCode, setSelectedAuthorityCode] = useState<
     string | undefined
   >(undefined);
-  const [fetchResult, setFetchResult] = useState<FetchResult<Authority[]>>({
-    error: null,
-    data: null,
-    isFetching: true,
-  });
+  const [fetchFn, { data }] = useFetch(getAuthorities());
   const cachedAuthoritiesOptions = useMemo<AuthorityOption<string>[]>(() => {
-    if (!fetchResult.data) {
+    if (!data) {
       return [];
     }
 
-    return fetchResult.data.map((authority) => ({
+    return data.authorities.map((authority) => ({
       label: authority.Name,
       value: authority.LocalAuthorityIdCode,
     }));
-  }, [fetchResult.data]);
+  }, [data]);
 
   useEffect(() => {
-    getAuthorities().then(
-      (result) => {
-        setFetchResult({
-          error: null,
-          data: result.authorities,
-          isFetching: false,
-        });
-      },
-      (error) => {
-        setFetchResult({ error, data: null, isFetching: false });
-      }
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchFn();
   }, []);
 
   const handleSelectAuthorityCode = (authorityCode: string) => {

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  EstablishmentDetail,
-  FetchResult,
-  getEstablishmentDetailById,
-} from "../api/ratingsAPI";
 import Loader from "../components/Loader";
 import Address from "../components/Address";
 import { getFormattedDateFromDateString } from "../fns/date";
 import { AppRoutes } from "../constants/routes";
+import { getEstablishmentDetailById } from "../api/establishments";
+
+import useFetch from "../hooks/useFetch";
 
 const containerStyles: React.CSSProperties = {
   display: "flex",
@@ -33,40 +31,13 @@ const linkStyle: React.CSSProperties = {
 
 const EstablishmentDetailPage = () => {
   const { establishmentId } = useParams();
-  const [fetchResult, setFetchResult] = useState<
-    FetchResult<EstablishmentDetail>
-  >({
-    error: null,
-    data: null,
-    isFetching: true,
-  });
+  const [fetchFn, { error, data, isFetching }] = useFetch(
+    getEstablishmentDetailById(establishmentId!)
+  );
 
   useEffect(() => {
-    setFetchResult({
-      error: null,
-      data: null,
-      isFetching: true,
-    });
-
-    getEstablishmentDetailById(establishmentId!).then(
-      (result) => {
-        setFetchResult({
-          error: null,
-          data: result,
-          isFetching: false,
-        });
-      },
-      (error) => {
-        setFetchResult({
-          error,
-          data: null,
-          isFetching: false,
-        });
-      }
-    );
+    fetchFn();
   }, [establishmentId]);
-
-  const { data, error, isFetching } = fetchResult;
 
   if (isFetching) {
     return <Loader />;

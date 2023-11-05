@@ -2,12 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { EstablishmentsTable } from "./EstablishmentsTable";
 import { EstablishmentsTableNavigation } from "./EstablishmentsTableNavigation";
-import {
-  Establishment,
-  EstablishmentSearchResult,
-  FetchResult,
-  getEstablishments,
-} from "../api/ratingsAPI";
+import { getEstablishments } from "../api/establishments";
+import useFetch from "../hooks/useFetch";
 
 const tableStyle: React.CSSProperties = {
   background: "rgba(51, 51, 51, 0.9)",
@@ -23,41 +19,13 @@ const PAGE_COUNT = 100;
 export const PaginatedEstablishmentsTable: React.FC<{
   selectedAuthorityCode?: string;
 }> = ({ selectedAuthorityCode }) => {
-  const [fetchResult, setFetchResult] = useState<
-    FetchResult<Establishment[] | EstablishmentSearchResult[]>
-  >({
-    error: null,
-    data: null,
-    isFetching: true,
-  });
   const [pageNum, setPageNum] = useState(1);
+  const [fetchFn, { error, data, isFetching }] = useFetch(
+    getEstablishments(pageNum, getSearchParams(selectedAuthorityCode))
+  );
 
   useEffect(() => {
-    setFetchResult({
-      error: null,
-      data: null,
-      isFetching: true,
-    });
-
-    getEstablishments(
-      pageNum,
-      getLocalAuthorityIdSearchParams(selectedAuthorityCode)
-    ).then(
-      (result) => {
-        setFetchResult({
-          error: null,
-          data: result.establishments,
-          isFetching: false,
-        });
-      },
-      (error) => {
-        setFetchResult({
-          error,
-          data: null,
-          isFetching: false,
-        });
-      }
-    );
+    fetchFn();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAuthorityCode, pageNum]);
 
@@ -74,7 +42,7 @@ export const PaginatedEstablishmentsTable: React.FC<{
     pageNum < PAGE_COUNT && setPageNum(pageNum + 1);
   }
 
-  function getLocalAuthorityIdSearchParams(localAuthorityId?: string) {
+  function getSearchParams(localAuthorityId?: string) {
     if (!localAuthorityId) {
       return undefined;
     }
@@ -82,16 +50,16 @@ export const PaginatedEstablishmentsTable: React.FC<{
     return { localAuthorityId };
   }
 
-  if (fetchResult.error) {
-    return <div>Error: {fetchResult.error.message}</div>;
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
     <div style={tableStyle}>
       <h2>Food Hygiene Ratings</h2>
       <EstablishmentsTable
-        establishments={fetchResult.data}
-        isLoading={fetchResult.isFetching}
+        establishments={data?.establishments || []}
+        isLoading={isFetching}
       />
       <EstablishmentsTableNavigation
         pageNum={pageNum}

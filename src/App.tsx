@@ -9,7 +9,7 @@ import {
   addFavouriteEstablishment,
   removeFavouriteEstablishment,
 } from "./context/FavouriteEstablishments";
-import { Establishment } from "./api/ratingsAPI";
+import { Establishment } from "./api/establishments";
 
 const router = createBrowserRouter([
   {

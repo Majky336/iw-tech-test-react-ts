@@ -1,8 +1,11 @@
 import React, { ChangeEvent, useContext } from "react";
-import { Establishment, EstablishmentSearchResult } from "../api/ratingsAPI";
 import { Link } from "react-router-dom";
 import { getEstablishmentDetailRoute } from "../constants/routes";
 import { FavouriteEstablishmentsContext } from "../context/FavouriteEstablishments";
+import {
+  Establishment,
+  EstablishmentSearchResult,
+} from "../api/establishments";
 
 const rowStyle: React.CSSProperties = {
   fontSize: "20px",

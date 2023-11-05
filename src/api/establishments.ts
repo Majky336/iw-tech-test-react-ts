@@ -1,17 +1,5 @@
-export type Authority = {
-  LocalAuthorityId: number;
-  LocalAuthorityIdCode: string;
-  Name: string;
-  EstablishmentCount: number;
-  SchemeType: number;
-  links: Link[];
-};
-
-export type BasicAuthority = {
-  authorities: Authority[];
-  meta: Metadata;
-  links: Link[];
-};
+import { makeApiCall } from "./client";
+import { Geocode, Link, Metadata, Scores } from "./types";
 
 export type Establishment = {
   BusinessName: string;
@@ -23,37 +11,10 @@ export type Establishment = {
   links: Link[];
 };
 
-export type Metadata = {
-  dataSource: string;
-  extractDate: string;
-  itemCount: number;
-  returncode: string;
-  totalCount: number;
-  totalPages: number;
-  pageSize: number;
-  pageNumber: number;
-};
-
-export type Link = {
-  rel: string;
-  href: string;
-};
-
 export type EstablishmentsType = {
   establishments: Establishment[];
   meta: Metadata;
   links: Link[];
-};
-
-export type FetchError = {
-  message: string;
-  [key: string]: string;
-};
-
-export type FetchResult<T> = {
-  data: T | null;
-  error: FetchError | null;
-  isFetching: boolean;
 };
 
 export type EstablishmentSearchParams = Partial<{
@@ -61,7 +22,7 @@ export type EstablishmentSearchParams = Partial<{
   pageNum: string;
 }>;
 
-export type EstablishmentSearchResult = Omit<Establishment, "links"> & {
+export type EstablishmentSearchResult = Establishment & {
   ChangesByServerID: number;
   BusinessTypeID: number;
   AddressLine1: string;
@@ -81,17 +42,6 @@ export type EstablishmentSearchResult = Omit<Establishment, "links"> & {
   RightToReply: string;
   Distance: number;
   NewRatingPending: boolean;
-};
-
-export type Scores = {
-  Hygiene: number;
-  Structural: number;
-  ConfidenceInManagement: number;
-};
-
-export type Geocode = {
-  longitude: string;
-  latitude: string;
 };
 
 export type EstablishmentSearchResults = {
@@ -128,8 +78,6 @@ export type EstablishmentDetail = {
   NewRatingPending: boolean;
 };
 
-// TODO: Create API client with Base URL
-
 export function getEstablishments(
   pageNum: number,
   searchParams?: EstablishmentSearchParams
@@ -147,34 +95,19 @@ export function getEstablishments(
 export function getEstablishmentRatingsByPageNumber(
   pageNum: number
 ): Promise<EstablishmentsType> {
-  return fetch(
-    `https://api.ratings.food.gov.uk/Establishments/basic/${pageNum}/10`,
-    { headers: { "x-api-version": "2" } }
-  ).then((res) => res.json());
+  return makeApiCall(`Establishments/basic/${pageNum}/10`);
 }
 
 export function getEstablishmentRatingsBySearchParams(
   searchParams: EstablishmentSearchParams
 ): Promise<EstablishmentSearchResults> {
-  const url = `https://api.ratings.food.gov.uk/Establishments?${new URLSearchParams(
-    searchParams
-  ).toString()}`;
-
-  return fetch(url, { headers: { "x-api-version": "2" } }).then((res) =>
-    res.json()
+  return makeApiCall(
+    `Establishments?${new URLSearchParams(searchParams).toString()}`
   );
-}
-
-export function getAuthorities(): Promise<BasicAuthority> {
-  return fetch("https://api.ratings.food.gov.uk/Authorities/basic", {
-    headers: { "x-api-version": "2" },
-  }).then((res) => res.json());
 }
 
 export function getEstablishmentDetailById(
   id: string | number
 ): Promise<EstablishmentDetail> {
-  return fetch(`https://api.ratings.food.gov.uk/Establishments/${id}`, {
-    headers: { "x-api-version": "2" },
-  }).then((res) => res.json());
+  return makeApiCall(`Establishments/${id}`);
 }
