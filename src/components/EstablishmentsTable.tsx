@@ -24,10 +24,11 @@ export const EstablishmentsTable: React.FC<{
 
   const renderRows = (
     establishments: Establishment[] | EstablishmentSearchResult[] | null
-  ) =>
-    establishments?.map((establishment, index) => (
+  ) => {
+    return establishments?.map((establishment, index) => (
       <EstablishmentsTableRow key={index} establishment={establishment} />
     ));
+  };
 
   return (
     <table>

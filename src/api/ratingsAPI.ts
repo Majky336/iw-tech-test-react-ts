@@ -100,6 +100,34 @@ export type EstablishmentSearchResults = {
   meta: Metadata;
 };
 
+export type EstablishmentDetail = {
+  FHRSID: number;
+  ChangesByServerID: number;
+  LocalAuthorityBusinessID: string;
+  BusinessName: string;
+  BusinessType: string;
+  BusinessTypeID: number;
+  AddressLine1: string;
+  AddressLine2: string;
+  AddressLine3: string;
+  AddressLine4: string;
+  PostCode: string;
+  Phone: string;
+  RatingValue: string;
+  RatingKey: string;
+  RatingDate: string;
+  LocalAuthorityCode: string;
+  LocalAuthorityName: string;
+  LocalAuthorityWebSite: string;
+  LocalAuthorityEmailAddress: string;
+  scores: Scores;
+  SchemeType: string;
+  geocode: Geocode;
+  RightToReply: string;
+  Distance: number;
+  NewRatingPending: boolean;
+};
+
 // TODO: Create API client with Base URL
 
 export function getEstablishments(
@@ -139,6 +167,14 @@ export function getEstablishmentRatingsBySearchParams(
 
 export function getAuthorities(): Promise<BasicAuthority> {
   return fetch("https://api.ratings.food.gov.uk/Authorities/basic", {
+    headers: { "x-api-version": "2" },
+  }).then((res) => res.json());
+}
+
+export function getEstablishmentDetailById(
+  id: string | number
+): Promise<EstablishmentDetail> {
+  return fetch(`https://api.ratings.food.gov.uk/Establishments/${id}`, {
     headers: { "x-api-version": "2" },
   }).then((res) => res.json());
 }

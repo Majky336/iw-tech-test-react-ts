@@ -1,21 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { PaginatedEstablishmentsTable } from "./PaginatedEstablishmentsTable";
-import Background from "../static/logo.svg";
-import AuthoritiesFilter, { AuthorityOption } from "./AuthoritiesFilter";
+import { PaginatedEstablishmentsTable } from "../components/PaginatedEstablishmentsTable";
+import AuthoritiesFilter, {
+  AuthorityOption,
+} from "../components/AuthoritiesFilter";
 import { FetchResult, Authority, getAuthorities } from "../api/ratingsAPI";
-
-const logoStyle: React.CSSProperties = {
-  width: "640px",
-  height: "25px",
-  background: `transparent url(${Background}) no-repeat center`,
-  margin: "20px auto",
-};
-
-const mainStyle: React.CSSProperties = {
-  maxWidth: "160ch",
-  margin: "auto",
-  padding: "50px",
-};
 
 const HomePage = () => {
   const [selectedAuthorityCode, setSelectedAuthorityCode] = useState<
@@ -59,18 +47,15 @@ const HomePage = () => {
 
   return (
     <>
-      <header style={logoStyle} />
-      <main style={mainStyle}>
-        <AuthoritiesFilter
-          authoritiesOptions={cachedAuthoritiesOptions}
-          id="authorities-filter"
-          onSelect={handleSelectAuthorityCode}
-          label="Select from list of Authorities:"
-        />
-        <PaginatedEstablishmentsTable
-          selectedAuthorityCode={selectedAuthorityCode}
-        />
-      </main>
+      <AuthoritiesFilter
+        authoritiesOptions={cachedAuthoritiesOptions}
+        id="authorities-filter"
+        onSelect={handleSelectAuthorityCode}
+        label="Select from list of Authorities:"
+      />
+      <PaginatedEstablishmentsTable
+        selectedAuthorityCode={selectedAuthorityCode}
+      />
     </>
   );
 };
