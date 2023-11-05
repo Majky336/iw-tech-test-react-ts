@@ -8,7 +8,7 @@ import { getEstablishmentDetailById } from "../api/establishments";
 
 import useFetch from "../hooks/useFetch";
 
-const containerStyles: React.CSSProperties = {
+const containerStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   color: "white",
@@ -37,6 +37,7 @@ const EstablishmentDetailPage = () => {
 
   useEffect(() => {
     fetchFn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [establishmentId]);
 
   if (isFetching) {
@@ -48,7 +49,7 @@ const EstablishmentDetailPage = () => {
   }
 
   return (
-    <div style={containerStyles}>
+    <div style={containerStyle}>
       <h2>{data?.BusinessName}</h2>
       <Address
         title="Establishment's address"

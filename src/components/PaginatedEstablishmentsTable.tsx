@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { EstablishmentsTable } from "./EstablishmentsTable";
-import { EstablishmentsTableNavigation } from "./EstablishmentsTableNavigation";
 import { getEstablishments } from "../api/establishments";
 import useFetch from "../hooks/useFetch";
+import EstablishmentsTable from "./EstablishmentsTable";
+import EstablishmentsTableNavigation from "./EstablishmentsTableNavigation";
 
 const tableStyle: React.CSSProperties = {
   background: "rgba(51, 51, 51, 0.9)",
@@ -16,7 +16,7 @@ const tableStyle: React.CSSProperties = {
 
 const PAGE_COUNT = 100;
 
-export const PaginatedEstablishmentsTable: React.FC<{
+const PaginatedEstablishmentsTable: React.FC<{
   selectedAuthorityCode?: string;
 }> = ({ selectedAuthorityCode }) => {
   const [pageNum, setPageNum] = useState(1);
@@ -74,3 +74,5 @@ export const PaginatedEstablishmentsTable: React.FC<{
 PaginatedEstablishmentsTable.propTypes = {
   selectedAuthorityCode: PropTypes.string,
 };
+
+export default PaginatedEstablishmentsTable;

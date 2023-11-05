@@ -11,13 +11,13 @@ const EMPTY_OPTION: AuthorityOption<string> = {
   value: "",
 };
 
-const containerStyles: React.CSSProperties = {
+const containerStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   margin: "20px 0",
 };
 
-const labelStyles: React.CSSProperties = {
+const labelStyle: React.CSSProperties = {
   fontSize: "20px",
   color: "white",
 };
@@ -37,8 +37,8 @@ const AuthoritiesFilter: React.FC<{
   };
 
   return (
-    <div style={containerStyles}>
-      <label htmlFor={id} style={labelStyles}>
+    <div style={containerStyle}>
+      <label htmlFor={id} style={labelStyle}>
         {label}
       </label>
       <select id={id} onChange={handleChange}>
@@ -54,9 +54,9 @@ const AuthoritiesFilter: React.FC<{
   );
 };
 
-export default AuthoritiesFilter;
-
 AuthoritiesFilter.propTypes = {
   authoritiesOptions: PropTypes.array,
   onSelect: PropTypes.func,
 };
+
+export default AuthoritiesFilter;

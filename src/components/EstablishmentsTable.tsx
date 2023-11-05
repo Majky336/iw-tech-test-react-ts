@@ -1,5 +1,4 @@
 import React from "react";
-import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
 import Loader from "./Loader";
 import NoDataTableRow from "./NoDataTableRow";
@@ -7,6 +6,7 @@ import {
   Establishment,
   EstablishmentSearchResult,
 } from "../api/establishments";
+import EstablishmentsTableRow from "./EstablishmentsTableRow";
 
 const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",
@@ -14,7 +14,7 @@ const headerStyle: React.CSSProperties = {
   fontSize: "20px",
 };
 
-export const EstablishmentsTable: React.FC<{
+const EstablishmentsTable: React.FC<{
   establishments: Establishment[] | EstablishmentSearchResult[] | null;
   isLoading: boolean;
 }> = ({ establishments, isLoading }) => {
@@ -56,3 +56,5 @@ EstablishmentsTable.propTypes = {
   establishments: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
 };
+
+export default EstablishmentsTable;

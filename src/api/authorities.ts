@@ -16,6 +16,6 @@ export type BasicAuthority = {
   links: Link[];
 };
 
-export function getAuthorities(): Promise<BasicAuthority> {
+export const getAuthorities = (): Promise<BasicAuthority> => {
   return makeApiCall("Authorities/basic");
-}
+};

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { EstablishmentsTable } from "./EstablishmentsTable";
 import { FavouriteEstablishmentsContext } from "../context/FavouriteEstablishments";
+import EstablishmentsTable from "./EstablishmentsTable";
 
 const tableStyle: React.CSSProperties = {
   background: "rgba(51, 51, 51, 0.9)",

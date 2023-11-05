@@ -78,10 +78,10 @@ export type EstablishmentDetail = {
   NewRatingPending: boolean;
 };
 
-export function getEstablishments(
+export const getEstablishments = (
   pageNum: number,
   searchParams?: EstablishmentSearchParams
-) {
+) => {
   if (!searchParams || Object.keys(searchParams).length === 0) {
     return getEstablishmentRatingsByPageNumber(pageNum);
   }
@@ -90,24 +90,24 @@ export function getEstablishments(
     pageNum: pageNum.toString(),
     ...searchParams,
   });
-}
+};
 
-export function getEstablishmentRatingsByPageNumber(
+export const getEstablishmentRatingsByPageNumber = (
   pageNum: number
-): Promise<EstablishmentsType> {
+): Promise<EstablishmentsType> => {
   return makeApiCall(`Establishments/basic/${pageNum}/10`);
-}
+};
 
-export function getEstablishmentRatingsBySearchParams(
+export const getEstablishmentRatingsBySearchParams = (
   searchParams: EstablishmentSearchParams
-): Promise<EstablishmentSearchResults> {
+): Promise<EstablishmentSearchResults> => {
   return makeApiCall(
     `Establishments?${new URLSearchParams(searchParams).toString()}`
   );
-}
+};
 
-export function getEstablishmentDetailById(
+export const getEstablishmentDetailById = (
   id: string | number
-): Promise<EstablishmentDetail> {
+): Promise<EstablishmentDetail> => {
   return makeApiCall(`Establishments/${id}`);
-}
+};

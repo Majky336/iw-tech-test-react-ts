@@ -16,7 +16,7 @@ const linkStyle: React.CSSProperties = {
   color: "#d14509",
 };
 
-export const EstablishmentsTableRow: React.FC<{
+const EstablishmentsTableRow: React.FC<{
   establishment: Establishment | EstablishmentSearchResult;
 }> = ({ establishment }) => {
   const {
@@ -81,3 +81,5 @@ export const EstablishmentsTableRow: React.FC<{
     </tr>
   );
 };
+
+export default EstablishmentsTableRow;
