@@ -1,18 +1,16 @@
-const buttonStyle = {
+import React from "react";
+import PropTypes from "prop-types";
+
+const buttonStyle: React.CSSProperties = {
   margin: "0 5px",
 };
 
-type EstablishmentsTableNavigationType = {
+const EstablishmentsTableNavigation: React.FC<{
   pageNum: number;
   pageCount: number;
   onPreviousPage: () => void;
   onNextPage: () => void;
-};
-
-export const EstablishmentsTableNavigation = (
-  props: EstablishmentsTableNavigationType
-) => {
-  const { pageNum, pageCount, onPreviousPage, onNextPage } = props;
+}> = ({ pageCount, pageNum, onNextPage, onPreviousPage }) => {
   return (
     <nav>
       {
@@ -39,3 +37,12 @@ export const EstablishmentsTableNavigation = (
     </nav>
   );
 };
+
+EstablishmentsTableNavigation.propTypes = {
+  pageCount: PropTypes.number.isRequired,
+  pageNum: PropTypes.number.isRequired,
+  onNextPage: PropTypes.func.isRequired,
+  onPreviousPage: PropTypes.func.isRequired,
+};
+
+export default EstablishmentsTableNavigation;

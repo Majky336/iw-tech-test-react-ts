@@ -1,35 +1,52 @@
 import React from "react";
-import { EstablishmentsTableRow } from "./EstablishmentsTableRow";
 import PropTypes from "prop-types";
+import Loader from "./Loader";
+import NoDataTableRow from "./NoDataTableRow";
+import {
+  Establishment,
+  EstablishmentSearchResult,
+} from "../api/establishments";
+import EstablishmentsTableRow from "./EstablishmentsTableRow";
 
-const headerStyle: { [key: string]: string | number } = {
+const headerStyle: React.CSSProperties = {
   paddingBottom: "10px",
   textAlign: "left",
   fontSize: "20px",
 };
 
-export const EstablishmentsTable: React.FC<{
-  establishments: { [key: string]: string }[] | null | undefined;
-}> = ({ establishments }) => {
+const EstablishmentsTable: React.FC<{
+  establishments: Establishment[] | EstablishmentSearchResult[] | null;
+  isLoading: boolean;
+}> = ({ establishments, isLoading }) => {
+  const renderLoader = () => (
+    <tr>
+      <td>
+        <Loader />
+      </td>
+    </tr>
+  );
+
+  const renderRows = (
+    establishments: Establishment[] | EstablishmentSearchResult[] | null
+  ) => {
+    if (!establishments || !establishments.length) {
+      return <NoDataTableRow />;
+    }
+
+    return establishments?.map((establishment, index) => (
+      <EstablishmentsTableRow key={index} establishment={establishment} />
+    ));
+  };
+
   return (
     <table>
       <tbody>
         <tr>
           <th style={headerStyle}>Business Name</th>
           <th style={headerStyle}>Rating Value</th>
+          <th style={headerStyle}>Favourite?</th>
         </tr>
-        {establishments &&
-          establishments?.map(
-            (
-              establishment: { [key: string]: string } | null | undefined,
-              index: React.Key | null | undefined
-            ) => (
-              <EstablishmentsTableRow
-                key={index}
-                establishment={establishment}
-              />
-            )
-          )}
+        {isLoading ? renderLoader() : renderRows(establishments)}
       </tbody>
     </table>
   );
@@ -37,4 +54,7 @@ export const EstablishmentsTable: React.FC<{
 
 EstablishmentsTable.propTypes = {
   establishments: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
 };
+
+export default EstablishmentsTable;
