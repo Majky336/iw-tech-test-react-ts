@@ -5,5 +5,9 @@ export const getFormattedDateFromDateString = (dateString?: string) => {
 
   const date = new Date(dateString);
 
-  return `${date.getDay()}/${date.getMonth()}/${date.getFullYear() % 2000}`;
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear() % 2000;
+
+  return `${day}/${month}/${year}`;
 };
